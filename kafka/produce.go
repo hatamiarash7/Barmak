@@ -6,6 +6,8 @@ import (
 
 	sarama "github.com/Shopify/sarama"
 	confluent "github.com/confluentinc/confluent-kafka-go/kafka"
+	goka "github.com/lovoo/goka"
+	"github.com/lovoo/goka/codec"
 	segmentio "github.com/segmentio/kafka-go"
 	log "github.com/sirupsen/logrus"
 )
@@ -112,4 +114,27 @@ func Sarama(message Message) {
 	} else {
 		log.Info("[Sarama] Message sent")
 	}
+}
+
+// Goka library
+func Goka(message Message) {
+	emitter, err := goka.NewEmitter(
+		[]string{host},
+		goka.Stream(topic),
+		new(codec.String),
+	)
+
+	if err != nil {
+		log.Fatalf("[Goka] Error creating emitter: %v", err)
+	}
+
+	defer emitter.Finish()
+
+	err = emitter.EmitSync(message.Key, message.Value)
+
+	if err != nil {
+		log.Fatalf("[Goka] Error emitting message: %v", err)
+	}
+
+	log.Info("[Goka] Message sent")
 }
