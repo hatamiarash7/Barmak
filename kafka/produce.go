@@ -12,11 +12,12 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-var ctx = context.Background()
-
-var host = "192.168.1.4:9092"
-var partition = 0
-var topic = "benchmark"
+var (
+	ctx       context.Context = context.Background()
+	host      string          = "192.168.1.4:9092"
+	partition int             = 0
+	topic     string          = "benchmark"
+)
 
 // Message global message structure for kafka
 type Message struct {
