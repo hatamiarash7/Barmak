@@ -12,3 +12,7 @@ build:
 ## run: run the app
 run: build
 	@ ./Barmak
+
+## test: run unit tests
+test:
+	@ go test ./kafka -count=1
