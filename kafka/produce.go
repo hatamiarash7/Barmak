@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/confluentinc/confluent-kafka-go/kafka"
+	sarama "github.com/Shopify/sarama"
 	confluent "github.com/confluentinc/confluent-kafka-go/kafka"
 	segmentio "github.com/segmentio/kafka-go"
 	log "github.com/sirupsen/logrus"
@@ -51,7 +51,7 @@ func Segmentio(message Message) {
 
 // Confluent library
 func Confluent(message Message) {
-	producer, err := kafka.NewProducer(&kafka.ConfigMap{"bootstrap.servers": host})
+	producer, err := confluent.NewProducer(&confluent.ConfigMap{"bootstrap.servers": host})
 
 	if err != nil {
 		log.Errorf("[Confluent] Failed to create producer: %s", err)
@@ -62,12 +62,10 @@ func Confluent(message Message) {
 			switch ev := e.(type) {
 			case *confluent.Message:
 				if ev.TopicPartition.Error != nil {
-					log.Printf("Delivery failed: %v\n", ev.TopicPartition)
+					log.Errorf("[Confluent] Delivery failed: %v\n", ev.TopicPartition)
 				}
 			case confluent.Error:
-				log.Printf("[Confluent] Error: %v\n", ev)
-			default:
-				log.Printf("[Confluent] Ignored event: %s\n", ev)
+				log.Errorf("[Confluent] Error: %v\n", ev)
 			}
 		}
 	}()
@@ -85,4 +83,33 @@ func Confluent(message Message) {
 	producer.Flush(500)
 
 	log.Info("[Confluent] Message sent")
+}
+
+// Sarama library
+func Sarama(message Message) {
+	producer, err := sarama.NewSyncProducer([]string{host}, nil)
+
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	defer func() {
+		if err := producer.Close(); err != nil {
+			log.Errorf("[Sarama] Failed to create producer: %s", err)
+		}
+	}()
+
+	msg := &sarama.ProducerMessage{
+		Topic: topic,
+		Key:   sarama.StringEncoder(message.Key),
+		Value: sarama.StringEncoder(message.Value),
+	}
+
+	_, _, err = producer.SendMessage(msg)
+
+	if err != nil {
+		log.Errorf("[Sarama] Failed to send message: %s\n", err)
+	} else {
+		log.Info("[Sarama] Message sent")
+	}
 }
