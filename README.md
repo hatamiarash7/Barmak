@@ -39,7 +39,16 @@ Usage: make [target]
   benchmark   Run benchmark tests
 ```
 
-Execute the following command to run the benchmark:
+Change configuration in `kafka/produce.go` :
+
+```go
+var (
+    host   string   = "localhost:9092"
+    topic  string   = "benchmark"
+)
+```
+
+Then, execute the following command to run the benchmark:
 
 ```bash
 $ make benchmark
