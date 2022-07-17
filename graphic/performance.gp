@@ -1,19 +1,3 @@
-##
-# gnuplot script to generate a performance graphic.
-#
-# it expects the following parameters:
-#
-# file_path - path to the file from which the data will be read
-# graphic_file_name - the graphic file name to be saved 
-# y_label - the desired label for y axis
-# y_range_min - minimum range for values in y axis
-# y_range_max - maximum range for values in y axis
-# column_1 - the first column to be used in plot command
-# column_2 - the second column to be used in plot command
-#
-# Author: Tiago Melo (tiagoharris@gmail.com)
-##
-
 # graphic will be saved as 800x600 png image file
 set terminal png
 
@@ -24,7 +8,7 @@ set grid
 set output graphic_file_name
 
 # the graphic's main title
-set title "performance comparison"
+set title "Performance Comparison"
 
 # since the input file is a CSV file, we need to tell gnuplot that data fields are separated by comma
 set datafile separator ","
