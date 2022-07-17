@@ -1,0 +1,10 @@
+# Binary
+Barmak
+
+# Benchmark
+*.png
+*.dat
+
+# Other
+.DS_Store
+*.log
