@@ -25,7 +25,7 @@ set yrange[y_range_min:y_range_max]
 # to avoid displaying large numbers in exponential format
 set format y "%.0f"
 
-# vertical label for x values 
+# vertical label for x values
 set xtics rotate
 
 # set boxplots
