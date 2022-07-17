@@ -26,7 +26,7 @@ type Message struct {
 }
 
 // Segmentio library
-func Segmentio(message Message) {
+func Segmentio(messages []Message) {
 	conn, err := segmentio.DialLeader(context.Background(), "tcp", host, topic, partition)
 
 	if err != nil {
@@ -34,26 +34,27 @@ func Segmentio(message Message) {
 	}
 
 	conn.SetWriteDeadline(time.Now().Add(10 * time.Second))
-	_, err = conn.WriteMessages(
-		segmentio.Message{
-			Key:   []byte(message.Key),
-			Value: []byte(message.Value),
-		},
-	)
 
-	if err != nil {
-		log.Fatalf("[Segmentio] Failed to write messages: %s", err)
+	for _, message := range messages {
+		_, err = conn.WriteMessages(
+			segmentio.Message{
+				Key:   []byte(message.Key),
+				Value: []byte(message.Value),
+			},
+		)
+
+		if err != nil {
+			log.Fatalf("[Segmentio] Failed to write messages: %s", err)
+		}
 	}
 
 	if err := conn.Close(); err != nil {
 		log.Fatalf("[Segmentio] Failed to close writer: %s", err)
 	}
-
-	log.Info("[Segmentio] Message sent")
 }
 
 // Confluent library
-func Confluent(message Message) {
+func Confluent(messages []Message) {
 	producer, err := confluent.NewProducer(&confluent.ConfigMap{"bootstrap.servers": host})
 
 	if err != nil {
@@ -73,23 +74,23 @@ func Confluent(message Message) {
 		}
 	}()
 
-	err = producer.Produce(&confluent.Message{
-		TopicPartition: confluent.TopicPartition{Topic: &topic, Partition: confluent.PartitionAny},
-		Value:          []byte(message.Value),
-		Key:            []byte(message.Key),
-	}, nil)
+	for _, message := range messages {
+		err = producer.Produce(&confluent.Message{
+			TopicPartition: confluent.TopicPartition{Topic: &topic, Partition: confluent.PartitionAny},
+			Value:          []byte(message.Value),
+			Key:            []byte(message.Key),
+		}, nil)
 
-	if err != nil {
-		log.Errorf("[Confluent] Failed to produce message: %s", err)
+		if err != nil {
+			log.Errorf("[Confluent] Failed to produce message: %s", err)
+		}
+
+		producer.Flush(10)
 	}
-
-	producer.Flush(500)
-
-	log.Info("[Confluent] Message sent")
 }
 
 // Sarama library
-func Sarama(message Message) {
+func Sarama(messages []Message) {
 	producer, err := sarama.NewSyncProducer([]string{host}, nil)
 
 	if err != nil {
@@ -102,23 +103,23 @@ func Sarama(message Message) {
 		}
 	}()
 
-	msg := &sarama.ProducerMessage{
-		Topic: topic,
-		Key:   sarama.StringEncoder(message.Key),
-		Value: sarama.StringEncoder(message.Value),
-	}
+	for _, message := range messages {
+		msg := &sarama.ProducerMessage{
+			Topic: topic,
+			Key:   sarama.StringEncoder(message.Key),
+			Value: sarama.StringEncoder(message.Value),
+		}
 
-	_, _, err = producer.SendMessage(msg)
+		_, _, err = producer.SendMessage(msg)
 
-	if err != nil {
-		log.Errorf("[Sarama] Failed to send message: %s\n", err)
-	} else {
-		log.Info("[Sarama] Message sent")
+		if err != nil {
+			log.Errorf("[Sarama] Failed to send message: %s\n", err)
+		}
 	}
 }
 
 // Goka library
-func Goka(message Message) {
+func Goka(messages []Message) {
 	emitter, err := goka.NewEmitter(
 		[]string{host},
 		goka.Stream(topic),
@@ -131,11 +132,11 @@ func Goka(message Message) {
 
 	defer emitter.Finish()
 
-	err = emitter.EmitSync(message.Key, message.Value)
+	for _, message := range messages {
+		err = emitter.EmitSync(message.Key, message.Value)
 
-	if err != nil {
-		log.Fatalf("[Goka] Error emitting message: %v", err)
+		if err != nil {
+			log.Fatalf("[Goka] Error emitting message: %v", err)
+		}
 	}
-
-	log.Info("[Goka] Message sent")
 }
