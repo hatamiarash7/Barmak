@@ -67,8 +67,13 @@ ok      arash-hatami.ir/Barmak/kafka    6.299s
 
 And you can see the results in `graphic` directory.
 
+Total number of operations :
+
 ![operations](.github/operations.png)
-![operations](.github/time_operations.png)
+
+Operation in nanoseconds :
+
+![time_operations](.github/time_operations.png)
 
 Default process will be handled by the Go [testing](https://pkg.go.dev/testing#hdr-Benchmarks) package. We can also use `-benchtime=100x` argument to set the minimum amount of time that the benchmark function will run.
 
