@@ -85,7 +85,7 @@ func Confluent(messages []Message) {
 			log.Errorf("[Confluent] Failed to produce message: %s", err)
 		}
 
-		producer.Flush(10)
+		producer.Flush(1)
 	}
 }
 
