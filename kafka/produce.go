@@ -14,7 +14,7 @@ import (
 
 var (
 	ctx       context.Context = context.Background()
-	host      string          = "192.168.1.4:9092"
+	host      string          = "localhost:9092"
 	partition int             = 0
 	topic     string          = "benchmark"
 )
