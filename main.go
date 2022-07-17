@@ -1,7 +1,7 @@
 package main
 
 import (
-	"git.arvan.me/cdn/Barmak/kafka"
+	"arash-hatami.ir/Barmak/kafka"
 )
 
 func main() {

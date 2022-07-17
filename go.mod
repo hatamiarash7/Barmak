@@ -1,4 +1,4 @@
-module git.arvan.me/cdn/Barmak
+module arash-hatami.ir/Barmak
 
 go 1.18
 
