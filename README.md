@@ -87,17 +87,17 @@ Default process will be handled by the Go [testing](https://pkg.go.dev/testing#h
 
 [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/D1D1WGU9)
 
-[![payping](https://cdn.payping.ir/statics/Payping-logo/Trust/blue.svg)](https://payping.ir/@hatamiarash7)
+<div><a href="https://payping.ir/@hatamiarash7"><img src="https://cdn.payping.ir/statics/Payping-logo/Trust/blue.svg" height="128" width="128"></a></div>
 
 ## Contributing 🤝
 
 Don't be shy and reach out to us if you want to contribute 😉
 
-1.  Fork it !
-2.  Create your feature branch : `git checkout -b my-new-feature`
-3.  Commit your changes : `git commit -am 'Add some feature'`
-4.  Push to the branch : `git push origin my-new-feature`
-5.  Submit a pull request
+1. Fork it !
+2. Create your feature branch : `git checkout -b my-new-feature`
+3. Commit your changes : `git commit -am 'Add some feature'`
+4. Push to the branch : `git push origin my-new-feature`
+5. Submit a pull request
 
 ## Issues
 
