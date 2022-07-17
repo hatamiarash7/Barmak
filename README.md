@@ -87,7 +87,7 @@ Default process will be handled by the Go [testing](https://pkg.go.dev/testing#h
 
 [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/D1D1WGU9)
 
-<div>[![](https://cdn.payping.ir/statics/Payping-logo/Trust/blue.svg)](https://payping.ir/@hatamiarash7)</div>
+[![payping](https://cdn.payping.ir/statics/Payping-logo/Trust/blue.svg)](https://payping.ir/@hatamiarash7)
 
 ## Contributing 🤝
 
