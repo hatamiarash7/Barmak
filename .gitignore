@@ -3,6 +3,7 @@ Barmak
 
 # Benchmark
 *.png
+!.github/*.png
 *.dat
 
 # Other
