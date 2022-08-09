@@ -6,7 +6,7 @@ require (
 	github.com/Shopify/sarama v1.35.0
 	github.com/confluentinc/confluent-kafka-go v1.9.2
 	github.com/lovoo/goka v1.1.7
-	github.com/segmentio/kafka-go v0.4.33
+	github.com/segmentio/kafka-go v0.4.34
 	github.com/sirupsen/logrus v1.9.0
 )
 
