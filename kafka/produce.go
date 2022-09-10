@@ -91,7 +91,7 @@ func Confluent(messages []Message) {
 
 // Sarama library
 func Sarama(messages []Message) {
-	producer, err := sarama.NewSyncProducer([]string{host}, nil)
+	producer, err := sarama.NewAsyncProducer([]string{host}, nil)
 
 	if err != nil {
 		log.Fatalln(err)
@@ -104,13 +104,11 @@ func Sarama(messages []Message) {
 	}()
 
 	for _, message := range messages {
-		msg := &sarama.ProducerMessage{
+		producer.Input() <- &sarama.ProducerMessage{
 			Topic: topic,
 			Key:   sarama.StringEncoder(message.Key),
 			Value: sarama.StringEncoder(message.Value),
 		}
-
-		_, _, err = producer.SendMessage(msg)
 
 		if err != nil {
 			log.Errorf("[Sarama] Failed to send message: %s\n", err)
