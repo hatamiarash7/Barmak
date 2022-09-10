@@ -2,8 +2,8 @@ SHELL := /bin/bash
 
 ## help: Show this help message
 help:
-	@ echo -e "Usage: make [target]\n"
-	@ sed -n 's/^##//p' ${MAKEFILE_LIST} | column -t -s ':' |  sed -e 's/^/ /'
+	@ printf "\033[33m%s:\033[0m\n" 'Available commands'
+	@ sed -n 's/^##//p' ${MAKEFILE_LIST} | column -t -s ':' | sed -e 's/^/ /'
 
 ## clean: Clean build & benchmark files
 clean:
