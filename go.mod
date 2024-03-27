@@ -3,7 +3,7 @@ module arash-hatami.ir/Barmak
 go 1.19
 
 require (
-	github.com/Shopify/sarama v1.36.0
+	github.com/Shopify/sarama v1.43.1
 	github.com/confluentinc/confluent-kafka-go v1.9.2
 	github.com/lovoo/goka v1.1.7
 	github.com/segmentio/kafka-go v0.4.34
